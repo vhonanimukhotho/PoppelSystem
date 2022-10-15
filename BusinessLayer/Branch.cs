@@ -12,14 +12,14 @@ namespace PoppelSystem.BusinessLayer
     {
 
         #region data members
-        private string accountNo, name, address;
+        private string branchID, customerID, name, address;
         #endregion
 
         #region  Properties
-        public string AccountNo
+        public string CustomerID
         {
-            get { return accountNo; }
-            set { accountNo = value; }
+            get { return customerID; }
+            set { customerID = value; }
         }
 
         public string Name
@@ -33,46 +33,33 @@ namespace PoppelSystem.BusinessLayer
             get { return address; }
             set { address = value; }
         }
+
+        public string BranchID
+        {
+            get { return branchID; }
+            set { branchID = value; }
+        }
         #endregion
 
         #region Constructors
         public Branch()
         {
-            accountNo = "";
+            customerID = "";
             name = "";
             address = "";
         }
-        public Branch(string name,string address)
+        public Branch(string customerID, string name,string address)
         {
+            this.customerID = customerID;
             this.name = name;
             this.address = address;
-            this.accountNo = AccountNoGenerator();
-        }
-        #endregion
-
-        #region account number generator
-        private string AccountNoGenerator()
-        {
-            string acc="";
-            DateTime creationTime = DateTime.Now;
-
-            string y = creationTime.Year.ToString();
-            string m = creationTime.Month.ToString();
-            string d = creationTime.Day.ToString();
-            string h = creationTime.Hour.ToString();
-            string mi = creationTime.Minute.ToString();
-            string s = creationTime.Second.ToString();
-            string mls = creationTime.Millisecond.ToString();
-
-            acc = y + m + d + h + mi + s + mls;
-            return acc;
         }
         #endregion
 
         #region To string
         public override string ToString()
         {
-            return "Name: " + name + ". Account :" + accountNo + ". Address :" + address;
+            return "CustomerID: " + customerID + "Name: " + name + ". Address :" + address;
         }
 
         #endregion
