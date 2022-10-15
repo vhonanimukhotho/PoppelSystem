@@ -44,12 +44,13 @@ namespace PoppelSystem.BusinessLayer
         }
         #endregion
 
-        #region Construtor
+        #region Construtors
         public Customer():base()
         {
             customerID = "";
             customerID = "";
             registrationDate = DateTime.MinValue;
+            branches = new Collection<Branch>();
         }
 
         public Customer(string id, string name, string phone, string address, string customerEmail)
@@ -58,21 +59,34 @@ namespace PoppelSystem.BusinessLayer
             this.customerEmail = customerEmail;
             customerID = "PPL" + id;
             registrationDate = DateTime.Now;
+            branches = new Collection<Branch>();
 
         }
         #endregion
 
         #region Add branch
-        public void addBranch(Branch b)
+        public bool AddBranch(string bName, string bAddress)
         {
-            branches.Add(b);
+            branches.Add(new Branch(bName,bAddress));
+            return true;
         }
         #endregion
 
         #region delete branch
-        public void deleteBranch(Branch b)
+        public bool DeleteBranch(string accountNo)
         {
-            branches.Remove(b);
+            if (branches != null)
+            {
+                foreach (Branch b in branches)
+                {
+                    if (b.AccountNo.Equals(accountNo))
+                    {
+                        branches.Remove(b);
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
         #endregion
 
@@ -80,9 +94,11 @@ namespace PoppelSystem.BusinessLayer
         public override string ToString()
         {
             string branchesStr = "";
-            foreach (Branch b in branches)
-            {
-               branchesStr = branchesStr +" [ " + b.ToString() +" ] ";
+            if(branches != null) { 
+                foreach (Branch b in branches)
+                {
+                   branchesStr = branchesStr +" [ " + b.ToString() +" ] ";
+                }
             }
 
             return "ID: " + ID + '\n'+
