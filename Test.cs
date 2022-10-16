@@ -43,14 +43,14 @@ namespace PoppelSystem
             customerDB.Add(c2);
 
             Branch c1Branch1 = new Branch(c1.CustomerID, "PD Clar", "Claremont");
-            Account c1Account1 = new Account(c1Branch1.BranchID,c1Branch1.Name,700);
+            Account c1Account1 = new Account(c1Branch1.BranchID,c1Branch1.Name,700,1000);
 
             Branch c2Branch1 = new Branch(c2.CustomerID, "UCT upper", "Rondebosch");
-            Account c2Account1 = new Account(c2Branch1.BranchID,c2Branch1.Name,4500);
+            Account c2Account1 = new Account(c2Branch1.BranchID,c2Branch1.Name,4500,1000);
             Branch c2Branch2 = new Branch(c2.CustomerID, "UCT middle", "Mowbray");
-            Account c2Account2 = new Account(c2Branch2.BranchID,c2Branch2.Name, 1869);
+            Account c2Account2 = new Account(c2Branch2.BranchID,c2Branch2.Name, 1869,1000);
 
-            c2Account2.AccountNo = "123456789";
+            c2Account2.AccountNo = 123456789;
             branchDB.Add(c1Branch1);
             branchDB.Add(c2Branch1);
             branchDB.Add(c2Branch2);
@@ -70,8 +70,8 @@ namespace PoppelSystem
             productDB.Add(p4);
 
             /************** Catalogue *****************/
-            Catalogue cat1 = new Catalogue("Top level");
-            Catalogue cat2 = new Catalogue("Middle level");
+            Catalogue cat1 = new Catalogue("Top level",p1,c1);
+            Catalogue cat2 = new Catalogue("Middle level", p1,c1);
             catalogueDB.Add(cat1);
             catalogueDB.Add(cat2);
 
@@ -126,7 +126,7 @@ namespace PoppelSystem
             /********************   end   **************************/
 
             /************* check credit status ***************/
-            string accountNo = "123456789";
+            int accountNo = 123456789;
             bool goodCredit = false;
             Branch branch = null;
             Account account = null;
@@ -136,7 +136,7 @@ namespace PoppelSystem
                 {
                     foreach(Account acc in accountDB)
                     {
-                        if (acc.AccountNo.Equals(accountNo)) // account match
+                        if (acc.AccountNo==accountNo) // account match
                         {
                             branch = b;
                             account = acc;
@@ -157,8 +157,7 @@ namespace PoppelSystem
             /*********************************************************************/
 
             /******** Add items ***************/
-            Product product1 = null;
-            Product product2 = null;
+           
 
             string productCode1 = "ML0021";
             int product1Qty = 30;

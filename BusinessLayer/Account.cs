@@ -11,9 +11,10 @@ namespace PoppelSystem.BusinessLayer
     {
 
         #region data members
-        private string accountNo, accountName, branchID;
+        private int accountNo;
+        private string accountName, branchID;
         private CreditStatus creditStatus;
-        private decimal balance;
+        private decimal balance, creditLimit;
         private decimal discountPercent;
  
         public enum CreditStatus {
@@ -25,7 +26,7 @@ namespace PoppelSystem.BusinessLayer
         #endregion
 
         #region Properties
-        public string AccountNo
+        public int AccountNo
         {
             get { return accountNo; }
             set { accountNo = value; }
@@ -60,23 +61,31 @@ namespace PoppelSystem.BusinessLayer
             set { creditStatus = value; }
         }
 
+        public decimal CreditLimit
+        {
+            get { return creditLimit; }
+            set { creditLimit = value; }
+        }
+
         #endregion
 
         #region Constructors
         public Account()
         {
             this.balance = 0;
+            this.creditLimit = 0;
             this.discountPercent = 0;
             this.creditStatus = CreditStatus.Good;
             this.branchID = "";
             this.accountName = "";
-            this.accountNo = "";
+            this.accountNo = 0;
         }
-        public Account(string branchID, string accountName, decimal balance)
+        public Account(string branchID, string accountName, decimal balance, decimal creditLimit)
         {
             this.accountName = accountName;
             this.branchID = branchID;
             this.balance = balance;
+            this.creditLimit = creditLimit;
             this.discountPercent = 0;
             this.creditStatus = CreditStatus.Good;
             this.accountNo = AccountNoGenerator();
@@ -84,7 +93,7 @@ namespace PoppelSystem.BusinessLayer
         #endregion
 
         #region account number generator
-        private string AccountNoGenerator()
+        private int AccountNoGenerator()
         {
             string acc = "";
             DateTime creationTime = DateTime.Now;
@@ -98,7 +107,7 @@ namespace PoppelSystem.BusinessLayer
             string mls = creationTime.Millisecond.ToString();
 
             acc = y + m + d + h + mi + s + mls;
-            return acc;
+            return Int32.Parse(acc);
         }
         #endregion
 
@@ -106,7 +115,7 @@ namespace PoppelSystem.BusinessLayer
         public override string ToString()
         {
             return "Account no: " + accountNo + "Account Name: " + accountName + "Branch ID: " + branchID +
-                "Balance :"+ balance + "DiscountPercent :" + discountPercent;
+                "Balance :"+ balance+" CreditLimit: "+creditLimit + "DiscountPercent :" + discountPercent;
         }
         #endregion
     }

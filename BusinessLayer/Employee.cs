@@ -9,6 +9,7 @@ namespace PoppelSystem.BusinessLayer
     public class Employee : Person
     {
         #region data members
+        private string employeeID,email;
         private RoleType roleVal;
 
         public enum RoleType{
@@ -22,25 +23,40 @@ namespace PoppelSystem.BusinessLayer
             get { return roleVal; }
             set { roleVal = value; }
         }
+
+        public string EmployeeID
+        {
+            get { return employeeID; }
+        }
+
+        public string Email
+        {
+            get { return email; }
+            set { email = value; }
+        }
         #endregion
 
         #region Constructors
         public Employee(): base()
         {
             roleVal = RoleType.none;
+            employeeID = "";
+            email = "";
         }
 
-        public Employee(string id, string name, string phone, string address):
+        public Employee(string employeeID,string id, string name, string phone, string address, string email):
             base(id,name,phone,address)
         {
             roleVal = RoleType.none;
+            this.employeeID = employeeID;
+            this.email = email;
         }
         #endregion
 
         #region To String
         public override string ToString()
         {
-            return base.ToString();
+            return "EmployeeID: "+ employeeID+", " + base.ToString() + "Email :"+ email;
         }
         #endregion
 

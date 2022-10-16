@@ -10,76 +10,62 @@ namespace PoppelSystem.BusinessLayer
     public class Catalogue
     {
         #region data members
-        private string name;
-        private Collection<Customer> entitledCustomers;
-        private Collection<Product> products;
+        private string catalogueID;
+        private Product product;
+        private Customer customer;
+        private string productCode;
+        private string customerID;
         #endregion
 
         #region Properties
-        public string Name
+        public string CatalogueID
         {
-            get { return name; }
-            set { name = value; }
+            get { return catalogueID; }
+            set { catalogueID = value; }
         }
 
-        public Collection<Customer> GetAllEntitledCustomers
+        public Product GetProduct
         {
-            get { return entitledCustomers; }
+            get { return product; }
         }
 
-        public Collection<Product> GetAllProducts
+        public string ProductCode
         {
-            get { return products; }
+            get { return product.ProductCode; }
+        }
+
+        public string CustomerID
+        {
+            get { return customer.CustomerID; }
+        }
+
+        public Customer GetCustomer
+        {
+            get { return customer; }
         }
         #endregion
 
         #region Constructors
         public Catalogue()
         {
-            this.name = "";
-            this.entitledCustomers = new Collection<Customer>();
-            this.products = new Collection<Product>();
+            this.catalogueID = "";
+            this.customer = new Customer();
+            this.product= new Product();
         }
 
-        public Catalogue(string name)
+        public Catalogue(string catalogueID, Product p, Customer c)
         {
-            this.name = name;
-            this.entitledCustomers = new Collection<Customer>();
-            this.products = new Collection<Product>();
-        }
-        #endregion
-
-        #region Entitlement
-        public void AddEntitledCustomer(Customer c)
-        {
-            entitledCustomers.Add(c);
-        }
-
-        public void RemoveEntitledCustomer(Customer c)
-        {
-            foreach(Customer customer in entitledCustomers)
-            {
-                if (customer.CustomerID.Equals(c.CustomerID))
-                {
-                    entitledCustomers.Remove(customer);
-                }
-            }
-        }
-
-        public bool isEntitled(Customer c)
-        {
-            foreach (Customer customer in entitledCustomers)
-            {
-                if (customer.CustomerID.Equals(c.CustomerID))
-                {
-                    return true;
-                }
-            }
-            return false;
+            this.catalogueID = catalogueID;
+            this.customer = c;
+            this.product = p;
         }
         #endregion
 
         #region To String
+        public override string ToString()
+        {
+            return "CustomerID: " + customer.CustomerID + ", ProductCode: " + product.ProductCode;
+        }
         #endregion
 
 
