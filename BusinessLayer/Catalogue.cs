@@ -64,7 +64,7 @@ namespace PoppelSystem.BusinessLayer
         #region To String
         public override string ToString()
         {
-            return "CustomerID: " + customer.CustomerID + ", ProductCode: " + product.ProductCode;
+            return "CatalogueID: " + catalogueID+"CustomerID: " + customer.CustomerID + ", ProductCode: " + product.ProductCode;
         }
         #endregion
 

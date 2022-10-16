@@ -9,8 +9,8 @@ namespace PoppelSystem.BusinessLayer
     public class Product
     {
         #region data members
-        private string productCode, productName, productDescription, productCategory;
-        private decimal price;
+        private string productCode, productName,productSize, productDescription, productCategory;
+        private decimal price, VAT;
         private bool hasVAT;
         private DateTime expiryDate;
         #endregion
@@ -26,6 +26,12 @@ namespace PoppelSystem.BusinessLayer
         {
             get { return productName; }
             set { productName = value; }
+        }
+
+        public string ProductSize
+        {
+            get { return productSize; }
+            set { productSize = value; }
         }
 
         public string ProductDescription
@@ -57,6 +63,12 @@ namespace PoppelSystem.BusinessLayer
             get { return hasVAT; }
             set { hasVAT = value;}
         }
+
+        public decimal getVAT
+        {
+            get { return VAT; }
+            set { VAT = value; }
+        }
         #endregion
 
         #region Constructors
@@ -69,9 +81,11 @@ namespace PoppelSystem.BusinessLayer
             price = 0;
             hasVAT = false;
             expiryDate = DateTime.MinValue;
+            productSize = "";
+            VAT = 0;    
         }
 
-        public Product(string productCode, string productName, string productDescription, string productCategory, decimal price, bool hasVat, DateTime expiryDate)
+        public Product(string productCode, string productName,string productSize, string productDescription, string productCategory, decimal price, bool hasVat, DateTime expiryDate, decimal VAT = 0m)
         {
             this.productCode = productCode;
             this.productName = productName;
@@ -80,6 +94,8 @@ namespace PoppelSystem.BusinessLayer
             this.price = price;
             this.hasVAT = hasVat;
             this.expiryDate = expiryDate;
+            this.VAT = VAT;
+            this.productSize = productSize;
         }
         #endregion
 
@@ -92,6 +108,7 @@ namespace PoppelSystem.BusinessLayer
                 "ProductCategory :" + productCategory + '\n' +
                 "Price :" + price.ToString() + '\n' +
                 "HasVAT :" + hasVAT + '\n' +
+                "VAT :" + VAT + '\n' +
                 "ExpiryDate :" + expiryDate;
         }
         #endregion

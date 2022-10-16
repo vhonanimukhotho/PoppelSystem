@@ -16,11 +16,10 @@ namespace PoppelSystem.BusinessLayer
         private CreditStatus creditStatus;
         private decimal balance, creditLimit;
         private decimal discountPercent;
- 
         public enum CreditStatus {
             None = 0,
             Good = 1,
-            Bad = 2
+            Poor = 2
         }
 
         #endregion

@@ -9,7 +9,7 @@ namespace PoppelSystem.BusinessLayer
     public class Stock
     {
         #region data members
-        private string productCode, binAddress;
+        private string stockID, productCode, binAddress;
         private int quantity;
         private int threshold = 0;
         #endregion
@@ -43,13 +43,15 @@ namespace PoppelSystem.BusinessLayer
         #region Constructors
         public Stock()
         {
+            stockID = "";
             productCode = "";
             binAddress = "";
             quantity = 0;
         }
 
-        public Stock(string productCode, string binAddress, int quantity)
+        public Stock(string stockID ,string productCode, string binAddress, int quantity)
         {
+            this.stockID = stockID;
             this.productCode = productCode;
             this.binAddress = binAddress;
             this.quantity = quantity;
@@ -82,7 +84,7 @@ namespace PoppelSystem.BusinessLayer
         #region To string
         public override string ToString()
         {
-            return "ProductCode :" + productCode + ", BinAddress :" + binAddress + ", Quantity: " + quantity.ToString() + ", StockLevel: " + isLow();
+            return "StockID :"+ stockID+ "ProductCode :" + productCode + ", BinAddress :" + binAddress + ", Quantity: " + quantity.ToString() + ", StockLevel: " + isLow();
         }
         #endregion 
     }

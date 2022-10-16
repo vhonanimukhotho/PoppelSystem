@@ -13,14 +13,15 @@ namespace PoppelSystem.BusinessLayer
     {
         #region data members
         private string orderNumber, deliveryAddress;
-        private decimal totalCost, discount;
+        private decimal totalCost, beforeDiscount, discount;
         private DateTime orderDate;
-        private Collection<OrderItem> orderItems;
         private Customer customer;
         private Employee employee;
         private Branch branch;
         private Account account;
-        protected OrderStatus orderStatus;
+        private OrderStatus orderStatus;
+        private int numberOfItems;
+
 
         public enum OrderStatus
         {
@@ -46,23 +47,22 @@ namespace PoppelSystem.BusinessLayer
         public decimal TotalCost 
         { 
             get { return totalCost; } 
-            set { totalCost = value; } 
         }
         public decimal Discount
         {
             get { return discount; }
-            set { discount = value; }
+        }
+        public decimal BeforeDiscount
+        {
+            get { return beforeDiscount; }
+        }
+        public int NumberOfItems
+        {
+            get { return numberOfItems; }
         }
         public DateTime OrderDate
         {
             get { return orderDate; }
-        }
-        public Collection<OrderItem> AllOrderItems
-        {
-            get
-            {
-                return orderItems;
-            }
         }
         public OrderStatus getOrderStatus
         {
@@ -91,17 +91,18 @@ namespace PoppelSystem.BusinessLayer
         #region Constructor
         public Order()
         {
-            orderNumber = string.Empty;
+            orderNumber = "";
             this.customer = new Customer();
             this.employee = new Employee();
             this.branch = new Branch();
             this.account = new Account();
             totalCost = 0;
             discount = 0;
+            beforeDiscount = 0;
             orderDate = DateTime.MinValue;
             deliveryAddress = "";
-            orderItems = new Collection<OrderItem>();
-
+            numberOfItems = 0;
+            
         }
 
         public Order(string orderNo, Customer customer, Employee employee, Branch branch, Account account)
@@ -113,79 +114,54 @@ namespace PoppelSystem.BusinessLayer
             this.account = account;
             totalCost = 0;
             discount = 0;
+            numberOfItems=0;
+            beforeDiscount = 0;
             orderDate = DateTime.Now;
             deliveryAddress = branch.Address;
-            orderItems = new Collection<OrderItem>();
+            
         }
         #endregion
 
-        #region Add item
-        public void AddItem(OrderItem ordItem)
+        #region Order Items
+        public void OrderItems(Collection<OrderItem> orderItems)
         {
- 
-            orderItems.Add(ordItem);
-        }
-        #endregion
+            numberOfItems = orderItems.Count;
 
-        #region Remove item
-        public void RemoveItem(OrderItem ordItem)
-        {
-            foreach (OrderItem orderItem in orderItems)
+            decimal tempTotal = 0;
+            decimal tempDiscount = 0;
+            decimal tempBeforeDiscount = 0;
+            
+            foreach(OrderItem item in orderItems)
             {
-                if (ordItem.ItemID==orderItem.ItemID)
-                {
-                    orderItems.Remove(ordItem);
-                    break;
-                }
+                tempTotal = tempTotal + item.TotalPrice();
+                tempDiscount = tempDiscount + item.TotalDiscountAmount();
+                tempBeforeDiscount = tempBeforeDiscount + item.TotalBeforeDiscount();
             }
-        }
-        #endregion
 
-        #region Get Total
-        public decimal Total()
-        {
-            decimal total = 0;
-            foreach (OrderItem orderItem in orderItems) {
-                total = total + orderItem.Price();
-            }
-            return total-discount;
-        }
-        #endregion
-
-        #region Get discount
-        public decimal GetDiscount()
-        {
-            decimal total = 0;
-            foreach (OrderItem orderItem in orderItems)
-            {
-                total = total + orderItem.ItemDiscount();
-            }
-            return total+discount;
+            totalCost = tempTotal;
+            discount = tempDiscount;
+            beforeDiscount = tempBeforeDiscount;
+            
         }
         #endregion
 
         #region To String
         public override string ToString()
         {
-            string items = "";
-            foreach(OrderItem orderItem in orderItems)
-            {
-                items = items +" [ "+ orderItem.ToString()+" ] ";
-            }
 
             return "---Order Details---\n" +
                 "Order number: " + orderNumber + '\n' +
-                "Delivery address: " + deliveryAddress + '\n' +
-                "Total: " + Total() + '\n' +
-                "Discount: " + GetDiscount() + '\n' +
-                "Order date: " + orderDate.ToString() + '\n' +
-                "Customer name: " + customer.Name + '\n' +
-                "Branch name: " + branch.Name + '\n' +
                 "Account number: " + account.AccountNo + '\n' +
+                "Customer ID: " + customer.CustomerID + '\n' +
+                "Branch ID: " + branch.BranchID + '\n' +
+                "Number of items: " + numberOfItems + '\n' +
+                "BeforeDiscount: " + beforeDiscount + '\n' +
+                "Discount: " + discount + '\n' +
+                "Total: " + totalCost + '\n' +
                 "Order status: " + orderStatus + '\n' +
-                "Order items: " + items +'\n'+
-                "Assited by: " + employee.Name + " - " + employee.GetRoleVal;
-                
+                "Delivery address: " + deliveryAddress + '\n' +
+                "Sales Person: " + employee.Name + " - " + employee.GetRoleVal +
+                "Order date: " + orderDate.ToString();
         }
         #endregion
     }

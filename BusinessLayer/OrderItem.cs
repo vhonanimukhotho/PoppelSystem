@@ -9,11 +9,12 @@ namespace PoppelSystem.BusinessLayer
     public class OrderItem
     {
         #region data members
-        private string itemID;
+        private string itemID, orderNumber;
         public Product product;
         private int quantity;
         private Account account;
-        private decimal VAT=0.15M;
+        private Order order;
+
         #endregion
 
         #region Properties
@@ -27,11 +28,36 @@ namespace PoppelSystem.BusinessLayer
             get { return itemID; }
             set { itemID = value; }
         }
-
         public decimal VATconstant
         {
-            get { return VAT; }
-            set { VAT = value; }
+            get { return product.getVAT; }
+
+        }
+        public string ProductCode
+        {
+            get {return product.ProductCode; }
+        }
+        public string ProductName
+        {
+            get { return product.ProductName; }
+        }
+        public decimal ProductPrice
+        {
+            get {return product.Price; }
+        }
+        public decimal Discount
+        {
+            get { return account.DiscountPercent; }
+        }
+
+        public Product GetProduct
+        {
+            get { return this.product; }
+        }
+
+        public Account GetAccount
+        {
+            get { return this.account; }
         }
         #endregion
 
@@ -42,21 +68,23 @@ namespace PoppelSystem.BusinessLayer
             this.product = new Product();
             this.account = new Account();
             this.itemID = "";
+            this.order = new Order();
         }
 
-        public OrderItem(string itemID, Product product, Account account, int quantity)
+        public OrderItem(string itemID,Order order, Product product, Account account, int quantity)
         {
             this.quantity = quantity;
             this.itemID = itemID;
             this.product = product;
             this.account = account;
+            this.order = order;
         }
         #endregion
 
         #region Get Item Price
         public decimal GetVATAmount()
         {
-            return product.Price * VAT;
+            return product.Price * product.getVAT;
         }
 
         public decimal WithoutVAT()
@@ -74,33 +102,48 @@ namespace PoppelSystem.BusinessLayer
             
             if (product.HasVAT)
             {
-                return WithVAT() * account.DiscountPercent*quantity;
+                return WithVAT() * account.DiscountPercent;
             }
             else
             {
-                return product.Price * account.DiscountPercent*quantity;
+                return WithoutVAT() * account.DiscountPercent;
             }
         }
 
         public decimal PricePerItem()
         {
-            decimal total = product.Price;
+            decimal total;
             if (product.HasVAT)
             {
-                decimal tempTotal = WithVAT();
-                decimal discountAmount = tempTotal * account.DiscountPercent;
-                total = tempTotal - discountAmount;
+                total = WithVAT() - ItemDiscount();
             }
             else
             {
-                decimal tempTotal = WithoutVAT();
-                decimal discountAmount = account.DiscountPercent;
-                total = tempTotal - discountAmount;
+                total = WithoutVAT()- ItemDiscount();
             }
             return total;
         }
 
-        public decimal Price()
+        public decimal TotalDiscountAmount()
+        {
+            return ItemDiscount() * quantity;
+        }
+
+        public decimal TotalBeforeDiscount()
+        {
+            decimal total;
+            if (product.HasVAT)
+            {
+                total = WithVAT()*quantity;
+            }
+            else
+            {
+                total = WithoutVAT()*quantity;
+            }
+            return total;
+        }
+
+        public decimal TotalPrice()
         {
             return PricePerItem() * quantity;
         }
@@ -109,7 +152,7 @@ namespace PoppelSystem.BusinessLayer
         #region To string
         public override string ToString()
         {
-            return product.ToString() + ", Selling Price per Item:"+ PricePerItem() + ", Selling Price "+Price()+", Quantity :"+quantity;
+            return product.ToString() + ", Selling Price per Item:"+ PricePerItem() + ", Selling Price "+ TotalPrice() + ", Quantity :"+quantity;
         }
         #endregion
     }

@@ -47,12 +47,14 @@ namespace PoppelSystem.BusinessLayer
             customerID = "";
             name = "";
             address = "";
+            branchID = "";
         }
-        public Branch(string customerID, string name,string address)
+        public Branch(string branchID, string customerID, string name,string address)
         {
             this.customerID = customerID;
             this.name = name;
             this.address = address;
+            this.branchID = branchID;
         }
         #endregion
 
