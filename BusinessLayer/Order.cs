@@ -122,8 +122,8 @@ namespace PoppelSystem.BusinessLayer
         }
         #endregion
 
-        #region Order Items
-        public void OrderItems(Collection<OrderItem> orderItems)
+        #region Add Items
+        public void AddItems(Collection<OrderItem> orderItems)
         {
             numberOfItems = orderItems.Count;
 

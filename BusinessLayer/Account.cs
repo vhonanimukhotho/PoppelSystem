@@ -79,7 +79,7 @@ namespace PoppelSystem.BusinessLayer
             this.accountName = "";
             this.accountNo = 0;
         }
-        public Account(string branchID, string accountName, decimal balance, decimal creditLimit)
+        public Account(int accountNo,string branchID, string accountName, decimal balance, decimal creditLimit)
         {
             this.accountName = accountName;
             this.branchID = branchID;
@@ -87,7 +87,7 @@ namespace PoppelSystem.BusinessLayer
             this.creditLimit = creditLimit;
             this.discountPercent = 0;
             this.creditStatus = CreditStatus.Good;
-            this.accountNo = AccountNoGenerator();
+            this.accountNo = accountNo;
         }
         #endregion
 

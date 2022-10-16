@@ -38,16 +38,16 @@ namespace PoppelSystem.BusinessLayer
         #region Construtors
         public Customer():base()
         {
-            customerID = "";
+            customerEmail = "";
             customerID = "";
             registrationDate = DateTime.MinValue;
         }
 
-        public Customer(string id, string name, string phone, string address, string customerEmail)
-            :base(id, name, phone, address)
+        public Customer(string idNumber,string customerID, string name, string phone, string address, string customerEmail)
+            :base(idNumber, name, phone, address)
         {
             this.customerEmail = customerEmail;
-            customerID = "PPL" + id;
+            this.customerID = customerID;
             registrationDate = DateTime.Now;
 
         }

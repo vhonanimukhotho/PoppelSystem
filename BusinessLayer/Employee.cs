@@ -44,8 +44,8 @@ namespace PoppelSystem.BusinessLayer
             email = "";
         }
 
-        public Employee(string employeeID,string id, string name, string phone, string address, string email):
-            base(id,name,phone,address)
+        public Employee(string employeeID,string idNumber, string name, string phone, string address, string email):
+            base(idNumber,name,phone,address)
         {
             roleVal = RoleType.none;
             this.employeeID = employeeID;
