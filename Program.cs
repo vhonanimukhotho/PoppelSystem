@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using PoppelSystem.BusinessLayer;
+using PoppelSystem.PresentationLayer;
 
 namespace PoppelSystem
 {
@@ -18,9 +19,8 @@ namespace PoppelSystem
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Form1());
-            
-            Test test = new Test();
+            Application.Run(new CustomerForm());
+       
         }
     }
 }
